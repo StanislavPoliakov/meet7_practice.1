@@ -28,12 +28,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        //initRecyclerView();
-        //startService(MyService.newIntent(MainActivity.this));
+
+        // Делаем привязку к сервису, запуск логики по onBind()
         bindService(MyService.newIntent(MainActivity.this), serviceConnection, BIND_AUTO_CREATE);
     }
 
+    /**
+     * После успешной привязки (onBind()) и передачи ненулевого Binder'-а отправляем в методе
+     * onServiceConnected сообщение в сервис для регистрации клиента (replyTo = mClient)
+     */
     private ServiceConnection serviceConnection = new ServiceConnection() {
+
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             try {
@@ -58,24 +63,30 @@ public class MainActivity extends AppCompatActivity {
     static final int MSG_REGISTER_CLIENT = 1;
 
     private class IncomingHandler extends Handler {
+
+        /**
+         * Получаем сгенерированные сервисом данные (ArrayList<DataItem>),
+         * которые передаем как obj, а не Bundle
+         * @param msg сообщение сервиса
+         */
         @Override
         public void handleMessage(Message msg) {
             if (msg.what == MyService.MSG_PUT_DATA) {
-                items = (ArrayList<DataItem>) msg.obj;
-                initRecyclerView();
-                //Log.d(TAG, "handleMessage: " + ((DataItem) msg.obj).getItemType());
+                items = (ArrayList<DataItem>) msg.obj; // Не проверяем Cast, доверяем себе :)
+                initRecyclerView(); //инициализируем RecyclerView после получения данных
             }
         }
     }
 
+    /**
+     * Метод инициализации RecyclerView. Обращу внимание, что необходимые данные для отображение
+     * мы передаем в конструктор адаптера (new MyAdapter(items))
+     */
     private void initRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
         mAdapter = new MyAdapter(items);
         recyclerView.setAdapter(mAdapter);
         mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(mManager);
-        //Log.d(TAG, "items.size = " + items.size());
-        //Log.d(TAG, "item text = " + items.get(0).getText());
-        //Log.d(TAG, "item imageid = " + items.get(0).getImageId());
     }
 }

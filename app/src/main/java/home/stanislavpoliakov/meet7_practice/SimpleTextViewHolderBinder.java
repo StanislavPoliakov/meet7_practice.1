@@ -7,17 +7,27 @@ public class SimpleTextViewHolderBinder extends ViewHolderBinder {
     private final DataItem item;
     private static final String TAG = "meet7_logs";
 
+    /**
+     * Конструтор для создания Binder'-а для типа SIMPLE_TEXT
+     * @param item элемент данных отображения, состояние которого используем для bindViewHolder
+     * @param viewType оставляю, но не использую, потому что возвращаю viewType не из
+     *                 Binder, а из item.getItemType()
+     */
     public SimpleTextViewHolderBinder(DataItem item, int viewType) {
-        super(viewType);
+        // Поскольку мы не определяем default-реализацию конструктора в абстрактном
+        // классе, но в SBOL используется эта конструкция - просто комментирую строку
+        //super(viewType);
         this.item = item;
-        Log.d(TAG, "SimpleTextViewHolderBinder: Constructor passed, item.text = " + item.getText());
     }
 
+    /**
+     * Метод привязки соответствующего ViewHoler'-а и сеттинга его UI-компонентов
+     * @param viewHolder Holder, который мы передаем (логика выбора Holder'-а реализована
+     *                   в MyAdapter
+     */
     @Override
     public void bindViewHolder(RecyclerView.ViewHolder viewHolder) {
-        Log.d(TAG, "bindViewHolder: " + viewHolder.getClass().getSimpleName());
         MyAdapter.SimpleTextViewHolder simpleTextViewHolder = (MyAdapter.SimpleTextViewHolder) viewHolder;
-        Log.d(TAG, "bindViewHolder: passed");
         simpleTextViewHolder.simpleTextView.setText(item.getText());
     }
 }

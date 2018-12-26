@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Класс фабрики для ViewHolder типа данных SIMPLE_IMAGE
+ */
 public class SimpleImageViewHolderFactory implements ViewHolderFactory {
 
     @Override

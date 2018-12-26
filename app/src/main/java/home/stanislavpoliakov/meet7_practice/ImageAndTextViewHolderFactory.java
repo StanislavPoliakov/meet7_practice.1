@@ -5,6 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * Класс фабрики для ViewHolder типа данных IMAGE_AND_TEXT
+ */
 public class ImageAndTextViewHolderFactory implements ViewHolderFactory {
 
     @Override
