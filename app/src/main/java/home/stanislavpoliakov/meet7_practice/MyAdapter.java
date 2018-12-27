@@ -1,6 +1,8 @@
 package home.stanislavpoliakov.meet7_practice;
 
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.SparseArray;
@@ -79,6 +81,28 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         if (binder != null) binder.bindViewHolder(holder);
     }
 
+
+    /**
+     * Метод внесения изменений в привязки в зависимости от изменений контента (areContentTheSame = false)
+     * в DiffCalls
+     * @param holder
+     * @param position
+     * @param payloads
+     */
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List<Object> payloads) {
+        ViewHolderBinder binder = mBinders.get(position);
+        if (payloads.isEmpty()) super.onBindViewHolder(holder, position, payloads);
+        else {
+            Bundle changes = (Bundle) payloads.get(0);
+            for (String key : changes.keySet()) {
+                if ("itemText".equals(key)) binder.dataItem.setText(changes.getString(key));
+                if ("itemImageId".equals(key)) binder.dataItem.setImageId(changes.getInt(key));
+            }
+            binder.bindViewHolder(holder);
+        }
+    }
+
     /**
      * После получения данных из сервиса, мы должны создать список Binder'-ов
      * @param items данные из сервиса
@@ -86,7 +110,25 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setData(List<DataItem> items) {
         mBinders.clear();
         for (DataItem item : items) mBinders.add(generateBinder(item));
-        notifyDataSetChanged(); // Уведомляем Адаптер о том, что изменились данные
+        //notifyDataSetChanged(); // Уведомляем Адаптер о том, что изменились данные
+    }
+
+    /**
+     * Публичный метод для подсчета и отображение изменений
+     * @param oldData "Старый" оригинальный список
+     * @param newData "Новый" список с изменениями
+     * Примечательно то, что для отображения элементов необходим метод setData, чтобы запустить отрисовку
+     */
+    public void onNewData(List<DataItem> oldData, List<DataItem> newData) {
+        Log.d(TAG, "onNewData: ");
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCall(oldData, newData));
+        diffResult.dispatchUpdatesTo(this);
+
+        setData(newData);
+        oldData.clear();
+        oldData.addAll(newData);
+
     }
 
     // Количество элементов для отображения
@@ -115,11 +157,11 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private ViewHolderBinder generateBinder(DataItem item) {
         switch (item.getItemType()) {
             case SIMPLE_TEXT:
-                return new SimpleTextViewHolderBinder(item, item.getItemType().type);
+                return new SimpleTextViewHolderBinder(item);
             case SIMPLE_IMAGE:
-                return new SimpleImageViewHolderBinder(item, item.getItemType().type);
+                return new SimpleImageViewHolderBinder(item);
             case IMAGE_AND_TEXT:
-                return new ImageAndTextViewHolderBinder(item, item.getItemType().type);
+                return new ImageAndTextViewHolderBinder(item);
             default:
                 return null;
         }

@@ -1,5 +1,7 @@
 package home.stanislavpoliakov.meet7_practice;
 
+import android.util.Log;
+
 /**
  * Класс элемента данных. Эта реализация несколько нарушает первый принцип SOLID, так как
  * внутри себя описывает три разновидности данных. Надо сделать общий интерфейс данных и три
@@ -8,11 +10,16 @@ package home.stanislavpoliakov.meet7_practice;
  * в Enum. К сожалению, реализация не по SOLID дает возможность дотянуться до полей, значение которых
  * будет инициализировано default (для String = "", для int = 0), в то время как этих полей для определенного
  * типа данных вообще не должно существовать. Надо переделать.
+ *
+ * Добавил id-элемента данных. Для DiffUtils
  */
-public class DataItem {
+public class DataItem implements Cloneable{
+    private static final String TAG = "meet7_logs";
+    private static int count;
     private String text;
-    private int imageId;
+    private int imageId = 0;
     private ItemTypes itemType;
+    private int id;
     //TODO Переделать объекты данных
 
     /**
@@ -20,9 +27,11 @@ public class DataItem {
      * @param itemType тип данных Enum (ItemTypes.SIMPLE_TEXT)
      * @param text текстовое содержимое для отображения
      */
+
     DataItem(ItemTypes itemType, String text) {
         this.itemType = itemType;
         this.text = text;
+        this.id = ++count;
     }
 
     /**
@@ -33,6 +42,7 @@ public class DataItem {
     DataItem(ItemTypes itemType, int imageId) {
         this.itemType = itemType;
         this.imageId = imageId;
+        this.id = ++count;
     }
 
     /**
@@ -45,17 +55,45 @@ public class DataItem {
         this.itemType = itemType;
         this.text = text;
         this.imageId = imageId;
+        this.id = ++count;
     }
 
     public String getText() {
-        return this.text;
+        return text;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
 
     public int getImageId() {
-        return this.imageId;
+        return imageId;
+    }
+
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public ItemTypes getItemType() {
-        return this.itemType;
+        return itemType;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+
+    /**
+     *  Переопределяем метод Clone для того, чтобы сделать дубликат нашего списка элемнтов
+     *  для внесения изменений (чтобы изменения регистрировались в DiffCall
+     * @return дубликат
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        DataItem cloneData = (DataItem) super.clone();
+        cloneData.text = this.text;
+        cloneData.imageId = this.imageId;
+        return cloneData;
     }
 }

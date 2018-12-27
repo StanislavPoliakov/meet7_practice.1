@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 public class SimpleImageViewHolderBinder extends ViewHolderBinder {
-    private final DataItem item;
+    //private final DataItem item;
     private static final String TAG = "meet7_logs";
 
     /**
@@ -13,11 +13,12 @@ public class SimpleImageViewHolderBinder extends ViewHolderBinder {
      * @param viewType оставляю, но не использую, потому что возвращаю viewType не из
      *                 Binder, а из item.getItemType()
      */
-    public SimpleImageViewHolderBinder(DataItem item, int viewType) {
+    public SimpleImageViewHolderBinder(DataItem item) {
+        super(item);
         // Поскольку мы не определяем default-реализацию конструктора в абстрактном
         // классе, но в SBOL используется эта конструкция - просто комментирую строку
         // super(viewType);
-        this.item = item;
+        //this.item = item;
     }
 
     /**
@@ -28,6 +29,6 @@ public class SimpleImageViewHolderBinder extends ViewHolderBinder {
     @Override
     public void bindViewHolder(RecyclerView.ViewHolder viewHolder) {
         MyAdapter.SimpleImageViewHolder simpleImageViewHolder = (MyAdapter.SimpleImageViewHolder) viewHolder;
-        simpleImageViewHolder.simpleImageView.setImageResource(item.getImageId());
+        simpleImageViewHolder.simpleImageView.setImageResource(dataItem.getImageId());
     }
 }
