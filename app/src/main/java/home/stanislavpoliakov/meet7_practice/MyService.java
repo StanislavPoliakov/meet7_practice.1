@@ -128,10 +128,6 @@ public class MyService extends Service {
              * @param mainList список, в который необходимо внести изменения
              * @return измененный список
              *
-             * Отмечу, что столь странная реализация обусловлена тем, что сначала проходим по
-             * списку итератором и удаляем элементы. Да, можно было вызвать просто mainList.remove()
-             * по индексам, но если добавлять логику удалений, а потом вставок элементов, то придется
-             * сначала проходить итератором по циклу, чтобы не ловить ConcurrentModificationException :)
              */
             private List<DataItem> changePair(List<DataItem> mainList) {
                 for (int i = 0; i < 2; i++) {
