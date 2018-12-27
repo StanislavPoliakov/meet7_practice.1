@@ -145,7 +145,7 @@ public class MyService extends Service {
                         }
                     }
                 }
-                return changeList;
+                return mainList;
             }
 
             /**
