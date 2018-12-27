@@ -110,7 +110,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void setData(List<DataItem> items) {
         mBinders.clear();
         for (DataItem item : items) mBinders.add(generateBinder(item));
-        //notifyDataSetChanged(); // Уведомляем Адаптер о том, что изменились данные
+        notifyDataSetChanged(); // Уведомляем Адаптер о том, что изменились данные
     }
 
     /**
