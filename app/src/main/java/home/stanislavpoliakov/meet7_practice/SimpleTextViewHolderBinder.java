@@ -4,21 +4,15 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 public class SimpleTextViewHolderBinder extends ViewHolderBinder {
-    //private final DataItem item;
     private static final String TAG = "meet7_logs";
 
     /**
      * Конструтор для создания Binder'-а для типа SIMPLE_TEXT
-     * @param item элемент данных отображения, состояние которого используем для bindViewHolder
-     * @param viewType оставляю, но не использую, потому что возвращаю viewType не из
-     *                 Binder, а из item.getItemType()
+     * Основная реализация описана в родителе.
+     * @param item элемент списка, для которого делаем Bind.
      */
     public SimpleTextViewHolderBinder(DataItem item) {
         super(item);
-        // Поскольку мы не определяем default-реализацию конструктора в абстрактном
-        // классе, но в SBOL используется эта конструкция - просто комментирую строку
-        //super(viewType);
-        //this.item = item;
     }
 
     /**

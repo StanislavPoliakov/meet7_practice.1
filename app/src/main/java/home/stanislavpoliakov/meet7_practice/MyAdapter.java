@@ -120,7 +120,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
      * Примечательно то, что для отображения элементов необходим метод setData, чтобы запустить отрисовку
      */
     public void onNewData(List<DataItem> oldData, List<DataItem> newData) {
-        Log.d(TAG, "onNewData: ");
 
         DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(new DiffCall(oldData, newData));
         diffResult.dispatchUpdatesTo(this);

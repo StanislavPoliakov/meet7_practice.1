@@ -48,13 +48,10 @@ public class MyService extends Service {
                 switch (MODIFIER) {
                     case MainActivity.MSG_INIT_LIST:
                         items = initList(20);
-                        //Log.d(TAG, "run: " + items.get(0));
-                        //Log.d(TAG, "run: " + changeList.get(0));
                         changeList = cloneList(items);
                         sendMessage(items, MODIFIER);
                         break;
                     case MainActivity.MSG_ADD_ITEMS:
-                        //changeList = cloneList(items);
                         changeList = addItems(changeList, 2);
                         sendMessage(changeList, MODIFIER);
                         break;
@@ -64,20 +61,22 @@ public class MyService extends Service {
                         sendMessage(changeList, MODIFIER);
                         break;
                     case MainActivity.MSG_REMOVE_ODD:
-                        //changeList = cloneList(items);
                         changeList = removeOdds(changeList);
                         sendMessage(changeList, MODIFIER);
                         break;
                 }
-               // sendMessage(MODIFIER);
             }
 
+            /**
+             * Метод для клонирования списков
+             * @param oldList
+             * @return
+             */
             private List<DataItem> cloneList(List<DataItem> oldList) {
                 List<DataItem> newList = new ArrayList<>();
                 try {
                     for (int i = 0; i < oldList.size(); i++)
                         newList.add((DataItem) oldList.get(i).clone());
-                    //changeList.add(items.get(i));
                 } catch (CloneNotSupportedException ex) {
                     ex.printStackTrace();
                 }
@@ -113,7 +112,7 @@ public class MyService extends Service {
             }
 
             /**
-             * Метод добавления элементов к списку. Добавим два элемента, для примера.
+             * Метод добавления элементов к списку со второй позиции. Добавим два элемента, для примера.
              * @param mainList список, в котороый будем добавлять элементы
              * @param count количество элементов, которое необходимо добавить
              * @return измененный список
@@ -135,49 +134,29 @@ public class MyService extends Service {
              * сначала проходить итератором по циклу, чтобы не ловить ConcurrentModificationException :)
              */
             private List<DataItem> changePair(List<DataItem> mainList) {
-                /*Iterator<DataItem> itemIterator = mainList.iterator();
-                List<ItemTypes> typesList = new ArrayList<>();
-                for (int i = 0; i <= 1; i++) {
-                    DataItem item = itemIterator.next();
-                    typesList.add(i, item.getItemType());
-                    itemIterator.remove();
-                }
-
-                for (int i = 0; i < typesList.size(); i++) {
-                    ItemTypes type = typesList.get(i);
-                    switch (type) {
-                        case SIMPLE_TEXT:
-                            mainList.add(i, new DataItem(type, setItemText()));
-                            break;
-                        case SIMPLE_IMAGE:
-                            mainList.add(i, new DataItem(type, setItemImageResource()));
-                            break;
-                        case IMAGE_AND_TEXT:
-                            mainList.add(i, new DataItem(type, setItemText(), setItemImageResource()));
-                            break;
-                    }
-                }*/
-                List<DataItem> changeList = new ArrayList<>(mainList);
                 for (int i = 0; i < 2; i++) {
-                    //ItemTypes type = typesList.get(i);
-                    switch (changeList.get(i).getItemType()) {
+                    switch (mainList.get(i).getItemType()) {
                         case SIMPLE_TEXT:
-                            changeList.get(i).setText(setItemText());
+                            mainList.get(i).setText(setItemText());
                             break;
                         case SIMPLE_IMAGE:
-                            changeList.get(i).setImageId(setItemImageResource());
+                            mainList.get(i).setImageId(setItemImageResource());
                             break;
                         case IMAGE_AND_TEXT: {
-                            changeList.get(i).setText(setItemText());
-                            changeList.get(i).setImageId(setItemImageResource());
+                            mainList.get(i).setText(setItemText());
+                            mainList.get(i).setImageId(setItemImageResource());
                             break;
                         }
                     }
                 }
-
                 return changeList;
             }
-            
+
+            /**
+             * Удаляем нечетные элементы списка. Проходим итератором.
+             * @param mainList список для изменения
+             * @return измененный список
+             */
             private List<DataItem> removeOdds(List<DataItem> mainList) {
                 Iterator<DataItem> itemIterator = mainList.iterator();
                 int itemCount = 0;
@@ -256,35 +235,13 @@ public class MyService extends Service {
 
         /**
          * Запуск логики работы осуществляем после регистрации клиента в сервисе
+         *
          * @param msg
          */
         @Override
         public void handleMessage(Message msg) {
             mClient = msg.replyTo;
             serviceWork(msg.what);
-            }
-            
-            /*if (msg.what == MainActivity.MSG_REGISTER_CLIENT) {
-                mClient = msg.replyTo;
-                createItemsList();
-            } else if (msg.what == MainActivity.MSG_CHANGE_LIST) {
-                //MyService.this.items.remove(1);
-                List<DataItem> newList = new ArrayList<>();
-                newList.addAll(items);
-                newList.remove(1);
-                Log.d(TAG, "handleMessage: " + items.size());
-                Log.d(TAG, "handleMessage: " + newList.size());
-                if (mClient != null) { // После того, как список готов, отправляем результат в Activity
-                    try {
-                        Message msgChange = Message.obtain(null, MSG_SOME_CHANGES);
-                        msgChange.obj = newList; // Список отправляем через msg.obj
-                        mClient.send(msgChange);
-                        Log.d(TAG, "handleMessage: sent");
-                    } catch (RemoteException ex) {
-                        ex.printStackTrace();
-                    }
-                }
-            }*/
-
+        }
     }
 }
