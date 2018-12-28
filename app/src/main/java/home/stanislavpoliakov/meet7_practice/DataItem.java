@@ -2,6 +2,8 @@ package home.stanislavpoliakov.meet7_practice;
 
 import android.util.Log;
 
+import java.util.List;
+
 /**
  * Класс элемента данных. Эта реализация несколько нарушает первый принцип SOLID, так как
  * внутри себя описывает три разновидности данных. Надо сделать общий интерфейс данных и три
@@ -19,6 +21,7 @@ public class DataItem implements Cloneable{
     private String text;
     private int imageId = 0;
     private ItemTypes itemType;
+    private List<Integer> imageItems;
     private int id;
     //TODO Переделать объекты данных
 
@@ -37,12 +40,13 @@ public class DataItem implements Cloneable{
     /**
      * Конструктор для данных типа "Простая картинка"
      * @param itemType тип данных Enum (ItemTypes.SIMPLE_IMAGE)
-     * @param imageId идентификатор ресурса (package:drawable/)
+     * @param imageItems коллекция изображений (package:drawable/)
      */
-    DataItem(ItemTypes itemType, int imageId) {
+    DataItem(ItemTypes itemType, List<Integer> imageItems) {
         this.itemType = itemType;
-        this.imageId = imageId;
+        this.imageItems = imageItems;
         this.id = ++count;
+
     }
 
     /**
@@ -82,6 +86,13 @@ public class DataItem implements Cloneable{
         return id;
     }
 
+    public List<Integer> getImageItems() {
+        return imageItems;
+    }
+
+    public void setImageItems(List<Integer> imageItems) {
+        this.imageItems = imageItems;
+    }
 
     /**
      *  Переопределяем метод Clone для того, чтобы сделать дубликат нашего списка элемнтов

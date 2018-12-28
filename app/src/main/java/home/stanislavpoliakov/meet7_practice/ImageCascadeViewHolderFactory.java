@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 /**
  * Класс фабрики для ViewHolder типа данных SIMPLE_IMAGE
  */
-public class SimpleImageViewHolderFactory implements ViewHolderFactory {
+public class ImageCascadeViewHolderFactory implements ViewHolderFactory {
 
     @Override
     public RecyclerView.ViewHolder createViewHolder(ViewGroup parent, LayoutInflater inflater) {
-        View itemView = inflater.inflate(R.layout.simple_image, parent, false);
-        return new MyAdapter.SimpleImageViewHolder(itemView);
+        View itemView = inflater.inflate(R.layout.image_cascade, parent, false);
+        return new MyAdapter.ImageCascadeViewHolder(itemView);
     }
 }

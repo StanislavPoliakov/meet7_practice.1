@@ -1,9 +1,10 @@
 package home.stanislavpoliakov.meet7_practice;
 
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
-public class SimpleImageViewHolderBinder extends ViewHolderBinder {
+public class ImageCascadeViewHolderBinder extends ViewHolderBinder {
     private static final String TAG = "meet7_logs";
 
     /**
@@ -11,7 +12,7 @@ public class SimpleImageViewHolderBinder extends ViewHolderBinder {
      * Основная реализация описана в родителе.
      * @param item элемент списка, для которого делаем Bind.
      */
-    public SimpleImageViewHolderBinder(DataItem item) {
+    public ImageCascadeViewHolderBinder(DataItem item) {
         super(item);
     }
 
@@ -22,7 +23,11 @@ public class SimpleImageViewHolderBinder extends ViewHolderBinder {
      */
     @Override
     public void bindViewHolder(RecyclerView.ViewHolder viewHolder) {
-        MyAdapter.SimpleImageViewHolder simpleImageViewHolder = (MyAdapter.SimpleImageViewHolder) viewHolder;
-        simpleImageViewHolder.simpleImageView.setImageResource(dataItem.getImageId());
+        MyAdapter.ImageCascadeViewHolder imageCascadeViewHolder = (MyAdapter.ImageCascadeViewHolder) viewHolder;
+        imageCascadeViewHolder.recyclerViewHorizontal.setAdapter(new HorizontalRecyclerViewAdapter(dataItem.getImageItems()));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(imageCascadeViewHolder.itemView.getContext(),
+                LinearLayoutManager.HORIZONTAL, false);
+        imageCascadeViewHolder.recyclerViewHorizontal.setLayoutManager(layoutManager);
+        //simpleImageViewHolder.simpleImageView.setImageResource(dataItem.getImageId());
     }
 }
