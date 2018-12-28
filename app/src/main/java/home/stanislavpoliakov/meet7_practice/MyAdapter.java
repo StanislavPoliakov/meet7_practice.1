@@ -180,20 +180,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
-     * для элемнтов типа SIMPLE_IMAGE
-     */
-    public static class SimpleImageViewHolder extends RecyclerView.ViewHolder {
-        public ImageView simpleImageView;
-
-        public SimpleImageViewHolder(View itemView) {
-            super(itemView);
-            simpleImageView = itemView.findViewById(R.id.simpleImageView);
-            simpleImageView.setImageResource(R.drawable.image_4);
-        }
-    }
-
-    /**
-     * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
      * для элемнтов типа IMAGE_AND_TEXT
      */
     public static class ImageAndTextViewHolder extends RecyclerView.ViewHolder {
@@ -208,13 +194,16 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
+    /**
+     * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
+     * для элемнтов типа IMAGE_CASCADE
+     */
     public static class ImageCascadeViewHolder extends RecyclerView.ViewHolder {
         public RecyclerView recyclerViewHorizontal;
 
         public ImageCascadeViewHolder(View itemView) {
             super(itemView);
             recyclerViewHorizontal = itemView.findViewById(R.id.recyclerViewHorizontal);
-            //recyclerViewHorizontal.setAdapter(new MyAdapter(MyAdapter.this.items));
         }
     }
 

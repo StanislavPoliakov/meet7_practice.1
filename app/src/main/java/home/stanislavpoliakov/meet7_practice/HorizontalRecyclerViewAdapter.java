@@ -9,6 +9,9 @@ import android.widget.ImageView;
 
 import java.util.List;
 
+/**
+ * Новый класс адаптера для горизонтального RecyclerView
+ */
 public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<HorizontalRecyclerViewAdapter.SimpleImageViewHolder> {
     private List<Integer> imageItems;
 
@@ -33,6 +36,9 @@ public class HorizontalRecyclerViewAdapter extends RecyclerView.Adapter<Horizont
         return imageItems.size();
     }
 
+    /**
+     * Класс ViewHolder'-ов, которые будем отображать
+     */
     public class SimpleImageViewHolder extends RecyclerView.ViewHolder {
         public ImageView imageView;
 

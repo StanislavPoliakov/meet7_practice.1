@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
- * Класс фабрики для ViewHolder типа данных SIMPLE_IMAGE
+ * Класс фабрики для ViewHolder типа данных IMAGE_CASCADE
  */
 public class ImageCascadeViewHolderFactory implements ViewHolderFactory {
 

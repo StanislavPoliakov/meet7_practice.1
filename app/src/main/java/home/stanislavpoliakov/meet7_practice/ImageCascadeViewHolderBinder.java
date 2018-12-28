@@ -8,7 +8,7 @@ public class ImageCascadeViewHolderBinder extends ViewHolderBinder {
     private static final String TAG = "meet7_logs";
 
     /**
-     * Конструтор для создания Binder'-а для типа SIMPLE_IMAGE
+     * Конструтор для создания Binder'-а для типа IMAGE_CASCADE
      * Основная реализация описана в родителе.
      * @param item элемент списка, для которого делаем Bind.
      */
@@ -17,7 +17,7 @@ public class ImageCascadeViewHolderBinder extends ViewHolderBinder {
     }
 
     /**
-     * Метод привязки соответствующего ViewHoler'-а и сеттинга его UI-компонентов
+     * Метод привязки соответствующего ViewHoler'-а и сеттинга вложенного RecyclerView
      * @param viewHolder Holder, который мы передаем (логика выбора Holder'-а реализована
      *                   в MyAdapter
      */

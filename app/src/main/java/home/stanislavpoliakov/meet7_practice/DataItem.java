@@ -38,7 +38,7 @@ public class DataItem implements Cloneable{
     }
 
     /**
-     * Конструктор для данных типа "Простая картинка"
+     * Конструктор для данных типа "Каскад картинок"
      * @param itemType тип данных Enum (ItemTypes.SIMPLE_IMAGE)
      * @param imageItems коллекция изображений (package:drawable/)
      */
