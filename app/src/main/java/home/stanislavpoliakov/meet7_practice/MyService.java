@@ -173,7 +173,7 @@ public class MyService extends Service {
              */
             private DataItem makeItem() {
                 int tmp = (int) Math.round(Math.random() * 2); // Случайное целое от 0 до 2
-                tmp = 2;
+                tmp = 0; //TODO "0" установлен для наглядности верного переиспользования внутри RecyclerView;
                 switch (tmp) {
                     case 0 :
                         itemType = SIMPLE_TEXT;
@@ -196,7 +196,7 @@ public class MyService extends Service {
              * @return текст для элемента данных
              */
             private String setItemText() {
-                return "This is a String #" + ++stringNumber;
+                return "#" + ++stringNumber;
             }
 
             /**
