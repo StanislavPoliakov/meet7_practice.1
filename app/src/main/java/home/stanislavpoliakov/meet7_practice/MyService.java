@@ -173,6 +173,7 @@ public class MyService extends Service {
              */
             private DataItem makeItem() {
                 int tmp = (int) Math.round(Math.random() * 2); // Случайное целое от 0 до 2
+                tmp = 2;
                 switch (tmp) {
                     case 0 :
                         itemType = SIMPLE_TEXT;
