@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 public class ChessLayoutManager extends RecyclerView.LayoutManager {
     private static final String TAG = "chessLayoutManager_logs";
     private int leftItemBorder, rightItemBorder, topItemBorder, bottomItemBorder;
+    private int firstItemOnScreen, lastItemOnScreen;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -108,7 +109,52 @@ public class ChessLayoutManager extends RecyclerView.LayoutManager {
         }
         offsetChildrenVertical(dy);
         scrolled += dy;
+        recycleViews(recycler);
         return scrolled;
+    }
+
+    private void recycleViews(RecyclerView.Recycler recycler) {
+        int itemsToRemove = 0;
+        int itemsOnScreen = 0;
+        boolean isFoundFirst = false;
+
+        for (int i = 0; i < getChildCount(); i++) {
+            View checkView = getChildAt(i);
+
+            int topOfView = getDecoratedTop(checkView);
+            int bottomOfView = getDecoratedBottom(checkView);
+
+            boolean isOnTheScreen = topOfView >= 0 && bottomOfView <= getHeight();
+            boolean isNoTop = topOfView < 0 && bottomOfView >= 0 && bottomOfView <= getHeight();
+            boolean isNoBottom = topOfView > 0 && topOfView <= getHeight() && bottomOfView >= getHeight();
+
+            if (isOnTheScreen || isNoTop || isNoBottom)
+            {
+                if (!isFoundFirst) {
+                    firstItemOnScreen = i;
+                    isFoundFirst = true;
+                }
+                lastItemOnScreen = i;
+            }
+            else itemsToRemove++;
+        }
+        int k = 0;
+        for (int i = 0; i < firstItemOnScreen; i++) {
+            k++;
+            removeAndRecycleView(getChildAt(i), recycler);
+        }
+        int j = 0;
+        for (int i = lastItemOnScreen + 1; i < getChildCount(); i++) {
+            j++;
+            removeAndRecycleView(getChildAt(i), recycler);
+        }
+        Log.d(TAG, "recycleViews: removed before first = " + k);
+        Log.d(TAG, "recycleViews: removed after last = " + j);
+        //for (int i = lastItemOnScreen; i < getChildCount() - 1; i++) removeAndRecycleView(getChildAt(i), recycler);
+
+       // Log.d(TAG, "recycleViews: On The Screen = " + itemsOnScreen + " first = "
+         //       + firstItemOnScreen + " last = " + lastItemOnScreen);
+        Log.d(TAG, "recycleViews: To Remove = " + itemsToRemove);
     }
 }
 
