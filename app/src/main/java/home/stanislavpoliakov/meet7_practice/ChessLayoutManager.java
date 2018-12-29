@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 public class ChessLayoutManager extends RecyclerView.LayoutManager {
     private static final String TAG = "chessLayoutManager_logs";
     private int leftItemBorder, rightItemBorder, topItemBorder, bottomItemBorder;
-    private int mFirstPosition, mLastPosition;
-    private boolean isOddPosition;
 
     @Override
     public RecyclerView.LayoutParams generateDefaultLayoutParams() {
@@ -111,40 +109,6 @@ public class ChessLayoutManager extends RecyclerView.LayoutManager {
         offsetChildrenVertical(dy);
         scrolled += dy;
         return scrolled;
-    }
-
-    public void recycleViewsOutOfBounds(RecyclerView.Recycler recycler) {
-        final int childCount = getChildCount();
-        final int parentWidth = getWidth();
-        final int parentHeight = getHeight();
-        boolean foundFirst = false;
-        int first = 0;
-        int last = childCount;
-        for (int i = 0; i < childCount; i++) {
-            final View v = getChildAt(i);
-            if (v.hasFocus() || (getDecoratedRight(v) >= 0 &&
-                    getDecoratedLeft(v) <= parentWidth &&
-                    getDecoratedBottom(v) >= 0 &&
-                    getDecoratedTop(v) <= parentHeight)) {
-                if (!foundFirst) {
-                    first = i;
-                    foundFirst = true;
-                }
-                last = i;
-            }
-        }
-        for (int i = childCount - 1; i > last; i--) {
-            removeAndRecycleViewAt(i, recycler);
-        }
-        for (int i = first - 1; i >= 0; i--) {
-            removeAndRecycleViewAt(i, recycler);
-        }
-        if (getChildCount() == 0) {
-            mFirstPosition = 0;
-        } else {
-            mFirstPosition += first;
-        }
-        mLastPosition += last;
     }
 }
 
