@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,8 +59,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (items.get(position).getItemType()) {
             case SIMPLE_TEXT:
                 return ItemTypes.SIMPLE_TEXT.type;
-            case SIMPLE_IMAGE:
-                return ItemTypes.SIMPLE_IMAGE.type;
+            case IMAGE_CASCADE:
+                return ItemTypes.IMAGE_CASCADE.type;
             case IMAGE_AND_TEXT:
                 return ItemTypes.IMAGE_AND_TEXT.type;
             default:
@@ -143,7 +142,7 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private void initFactory() {
         mFactory = new SparseArray<>();
         mFactory.put(ItemTypes.SIMPLE_TEXT.type, new SimpleTextViewHolderFactory());
-        mFactory.put(ItemTypes.SIMPLE_IMAGE.type, new SimpleImageViewHolderFactory());
+        mFactory.put(ItemTypes.IMAGE_CASCADE.type, new ImageCascadeViewHolderFactory());
         mFactory.put(ItemTypes.IMAGE_AND_TEXT.type, new ImageAndTextViewHolderFactory());
     }
 
@@ -157,8 +156,8 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         switch (item.getItemType()) {
             case SIMPLE_TEXT:
                 return new SimpleTextViewHolderBinder(item);
-            case SIMPLE_IMAGE:
-                return new SimpleImageViewHolderBinder(item);
+            case IMAGE_CASCADE:
+                return new ImageCascadeViewHolderBinder(item);
             case IMAGE_AND_TEXT:
                 return new ImageAndTextViewHolderBinder(item);
             default:
@@ -181,20 +180,6 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     /**
      * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
-     * для элемнтов типа SIMPLE_IMAGE
-     */
-    public static class SimpleImageViewHolder extends RecyclerView.ViewHolder {
-        public ImageView simpleImageView;
-
-        public SimpleImageViewHolder(View itemView) {
-            super(itemView);
-            simpleImageView = itemView.findViewById(R.id.simpleImageView);
-            simpleImageView.setImageResource(R.drawable.image_4);
-        }
-    }
-
-    /**
-     * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
      * для элемнтов типа IMAGE_AND_TEXT
      */
     public static class ImageAndTextViewHolder extends RecyclerView.ViewHolder {
@@ -206,6 +191,19 @@ public class MyAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             comboTextView = itemView.findViewById(R.id.comboTextView);
             comboImageView = itemView.findViewById(R.id.comboImageView);
             comboImageView.setImageResource(R.drawable.image_3);
+        }
+    }
+
+    /**
+     * Статичный класс, описывающий ViewHolder и инициализирующий UI-компоненты
+     * для элемнтов типа IMAGE_CASCADE
+     */
+    public static class ImageCascadeViewHolder extends RecyclerView.ViewHolder {
+        public RecyclerView recyclerViewHorizontal;
+
+        public ImageCascadeViewHolder(View itemView) {
+            super(itemView);
+            recyclerViewHorizontal = itemView.findViewById(R.id.recyclerViewHorizontal);
         }
     }
 

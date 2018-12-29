@@ -135,8 +135,10 @@ public class MyService extends Service {
                         case SIMPLE_TEXT:
                             mainList.get(i).setText(setItemText());
                             break;
-                        case SIMPLE_IMAGE:
-                            mainList.get(i).setImageId(setItemImageResource());
+                        case IMAGE_CASCADE:
+                            List<Integer> imageItemIds = new ArrayList<>();
+                            for (int j = 0; j < 5; j++) imageItemIds.add(setItemImageResource());
+                            mainList.get(i).setImageItems(imageItemIds);
                             break;
                         case IMAGE_AND_TEXT: {
                             mainList.get(i).setText(setItemText());
@@ -171,13 +173,16 @@ public class MyService extends Service {
              */
             private DataItem makeItem() {
                 int tmp = (int) Math.round(Math.random() * 2); // Случайное целое от 0 до 2
+                tmp = 0; //TODO "0" установлен для наглядности верного переиспользования внутри RecyclerView;
                 switch (tmp) {
                     case 0 :
                         itemType = SIMPLE_TEXT;
                         return new DataItem(itemType, setItemText());
                     case 1 :
-                        itemType = ItemTypes.SIMPLE_IMAGE;
-                        return new DataItem(itemType, setItemImageResource());
+                        itemType = ItemTypes.IMAGE_CASCADE;
+                        List<Integer> imageItemIds = new ArrayList<>();
+                        for (int i = 0; i < 5; i++) imageItemIds.add(setItemImageResource());
+                        return new DataItem(itemType, imageItemIds);
                     case 2 :
                         itemType = ItemTypes.IMAGE_AND_TEXT;
                         return new DataItem(itemType, setItemText(), setItemImageResource());
@@ -191,7 +196,7 @@ public class MyService extends Service {
              * @return текст для элемента данных
              */
             private String setItemText() {
-                return "This is a String #" + ++stringNumber;
+                return "#" + ++stringNumber;
             }
 
             /**

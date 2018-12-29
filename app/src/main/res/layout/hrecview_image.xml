@@ -8,12 +8,12 @@
 
     <ImageView
         android:id="@+id/simpleImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="240dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/image_10" />
+        app:srcCompat="@drawable/image_12" />
 </android.support.constraint.ConstraintLayout>

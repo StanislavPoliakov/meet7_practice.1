@@ -23,7 +23,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private RecyclerView recyclerView;
     private MyAdapter mAdapter;
-    private LinearLayoutManager mManager;
+    //private LinearLayoutManager mManager;
+    private ChessLayoutManager mManager;
     private List<DataItem> items = new ArrayList<>();
     private List<DataItem> newList = new ArrayList<>();
     private static final String TAG = "meet7_logs";
@@ -92,7 +93,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         recyclerView = findViewById(R.id.recyclerView);
         mAdapter = new MyAdapter(items);
         recyclerView.setAdapter(mAdapter);
-        mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        //mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        mManager = new ChessLayoutManager();
         recyclerView.setLayoutManager(mManager);
     }
 
